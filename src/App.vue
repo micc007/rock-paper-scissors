@@ -1,5 +1,5 @@
 <template>
-  <RockPaperScissors msg="Vite + Vue"/>
+  <RockPaperScissors msg="Rock Paper Scissors"/>
 </template>
 
 <script setup lang="ts">
