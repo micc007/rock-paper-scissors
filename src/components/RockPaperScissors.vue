@@ -23,88 +23,51 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+  import { ref, computed } from 'vue'
+  import { gameDecisionType } from '../ts/types/gameDecisionType.ts'
+  import { decision } from '../ts/functions/gameDecision.ts'
 
-defineProps<{ 
-  msg: string
-}>()
+  defineProps<{ 
+    msg: string
+  }>()
 
-const playedGames = ref<number>(0);
-const wins = ref<number>(0);
-const winPer = ref<number>(0);
+  const playedGames = ref<number>(0);
+  const wins = ref<number>(0);
+  const winPer = ref<number>(0);
 
-const userInput = ref<string>("");
-const opponentInput = ref<string>("");
-const result = ref<string>("");
+  const userInput = ref<string>("");
+  const opponentInput = ref<string>("");
+  const result = ref<string>("");
 
-const winPercentage = computed((): number => {
-    if(wins.value === 0 && playedGames.value === 0) return winPer.value = 0;
-    winPer.value = parseFloat(((wins.value/playedGames.value) * 100).toFixed(1));
-    return winPer.value;
-})
+  const winPercentage = computed((): number => {
+      if(wins.value === 0 && playedGames.value === 0) return winPer.value = 0;
+      winPer.value = parseFloat(((wins.value/playedGames.value) * 100).toFixed(1));
+      return winPer.value;
+  })
 
-const gameResult = (win: boolean) => {
-  if(win) {
-    wins.value++,
-    playedGames.value++
-  }
-  else {
-    playedGames.value++;
-  }
-
-}
-
-const gameInput = (input: string) => {
-  const randomValue: number = Math.floor(Math.random() * 3);
-  const opponentMove: string = randomValue === 0 ? "rock" : randomValue === 1 ? "paper" : "scissors";
-
-  type gameDecisionType = {
-    win: boolean,
-    tie: boolean,
-    message: string
+  const gameResult = (win: boolean) => {
+      if(win) {
+        wins.value++,
+        playedGames.value++
+      }
+      else {
+        playedGames.value++;
+      }
   }
 
-  const gameDecision: gameDecisionType = {
-    win: false,
-    tie: false,
-    message: ''
-  };
+  const gameInput = (input: string) => {
+    const randomValue: number = Math.floor(Math.random() * 3);
+    const opponentMove: string = randomValue === 0 ? "rock" : randomValue === 1 ? "paper" : "scissors";
 
-  userInput.value = input;
-  opponentInput.value = opponentMove;
+    userInput.value = input;
+    opponentInput.value = opponentMove;
 
-  if(input === opponentMove){
-    gameDecision.tie = true;
-    gameDecision.message = "It's a TIE";
-  }
-  else if(input === "rock" && opponentMove === "paper") {
-    gameDecision.message = "Paper wraps around a rock, YOU LOSE";
-  }
-  else if(input === "rock" && opponentMove === "scissors"){
-    gameDecision.win = true;
-    gameDecision.message = "Rock blunts scissors, YOU WIN";
-  } 
-  else if(input === "paper" && opponentMove === "rock") {
-    gameDecision.win = true;
-    gameDecision.message = "Paper wraps around a rock, YOU WIN";
-  }
-  else if(input === "paper" && opponentMove === "scissors") {
-    gameDecision.message = "Scissors cut paper, YOU LOSE";
-  }
-  else if(input === "scissors" && opponentMove === "rock") {
-    gameDecision.message = "Rock blunts scissors, YOU LOSE";
-  }
-  else if(input === "scissors" && opponentMove === "paper") {
-    gameDecision.win = true;
-    gameDecision.message = "Scissors cut paper, YOU WIN";
-  }
-  else gameDecision.message = "Oops";
+    const gameDecision: gameDecisionType = decision(input, opponentMove);
 
-  result.value = gameDecision.message;
-  if(gameDecision.win) gameResult(true);
-  else gameResult(false);
-
-}
+    result.value = gameDecision.message;
+    if(gameDecision.win) gameResult(true);
+    else gameResult(false);
+  }
 
 </script>
 
