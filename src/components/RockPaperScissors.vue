@@ -1,5 +1,5 @@
 <template>
-  <h1>{{ msg }}</h1>
+  <h1>{{ header }}</h1>
 
   <div class="card">
     <div class="buttons">
@@ -28,7 +28,7 @@
   import { decision } from '../ts/functions/gameDecision.ts'
 
   defineProps<{ 
-    msg: string
+    header: string
   }>()
 
   const playedGames = ref<number>(0);
