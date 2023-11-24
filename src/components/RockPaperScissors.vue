@@ -43,7 +43,7 @@
     </transition>
 
     <button @click=pokusFunction>ZMENA JE ŽIVOT</button>
-    <transition name="kokocina" appear>
+    <transition name="animation-pokus" appear>
       <div class="stvorec" v-if="pokus"></div>
     </transition>
     
@@ -149,24 +149,24 @@
     height: 150px;
   }
 
-  .kokocina-enter-from {
+  .animation-pokus-enter-from {
     opacity: 0;
   }
 
-  .kokocina-enter-to {
+  .animation-pokus-enter-to {
     opacity: 1;
   }
 
-  .kokocina-enter-active,
-  .kokocina-leave-active {
+  .animation-pokus-enter-active,
+  .animation-pokus-leave-active {
     transition: opacity 2s ease;
   }
 
-  .kokocina-leave-from {
+  .animation-pokus-leave-from {
     opacity: 1;
   }
 
-  .kokocina-leave-to {
+  .animation-pokus-leave-to {
     opacity: 0;
   }
 
