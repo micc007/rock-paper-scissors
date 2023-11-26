@@ -1,23 +1,24 @@
 <template>
-  <h1>{{ header }}</h1>
+  <transition name="header" appear>
+    <h1>{{ header }}</h1>
+  </transition>
 
   <div class="card">
-    <transition name="game">
-      <div>
+    <transition name="game" mode="out-in" appear>
+      <div class="buttons" v-if="showInput">
+        <button class="game_button" type="button" @click="gameInput('rock')">
+          <img src="rock.svg" alt="rock input" width="150" height="150">
+        </button>
+        <button class="game_button" type="button" @click="gameInput('paper')">
+          <img src="paper.svg" alt="paper input" width="150" height="150">
+        </button>
+        <button class="game_button" type="button" @click="gameInput('scissors')">
+          <img src="scissors.svg" alt="scissors input" width="150" height="150">
+        </button>
+      </div>
 
-        <div class="buttons" v-if="showInput">
-          <button type="button" @click="gameInput('rock')">
-            <img src="rock.svg" alt="rock input" width="150" height="150">
-          </button>
-          <button type="button" @click="gameInput('paper')">
-            <img src="paper.svg" alt="paper input" width="150" height="150">
-          </button>
-          <button type="button" @click="gameInput('scissors')">
-            <img src="scissors.svg" alt="scissors input" width="150" height="150">
-          </button>
-        </div>
-
-        <div class="message" v-if="!showInput">
+      <div v-else>
+        <div class="round" v-if="!showInput">
           <div class="input-container">
             <h3>{{ userInput.value }}</h3>
             <img :src=userInput.src :alt=userInput.alt width="150" height="150">
@@ -28,25 +29,26 @@
             <img :src=opponentInput.src :alt=opponentInput.alt width="150" height="150">
           </div>
         </div>
-
-        <h3>{{ result }}</h3>
-        <button @click="showInput = true">Play again</button>
-
-        <div class="stats">
-          <p>Win percentage | {{ winPercentage }}% |</p>
-          <p>Wins - {{ wins }}</p>
-          <p>Games played - {{ playedGames }}</p>
+        
+        <div class="message" v-if="!showInput">
+          <h3 class="tieMessageBackground">{{ result }}</h3>
+          <button @click="showInput = true">Play again</button>
         </div>
 
+        <div class="stats" v-if="!showInput">
+          <div class="stat">
+            Win percentage <p :class="winPercentageClass">{{ winPercentage }}%</p>
+          </div>
+          <div class="stat">
+            Wins <p>{{ wins }}</p>
+          </div>
+          <div class="stat">
+            Games played <p>{{ playedGames }}</p>
+          </div>
+        </div>
       </div>
-      
     </transition>
 
-    <button @click=pokusFunction>ZMENA JE ŽIVOT</button>
-    <transition name="animation-pokus" appear>
-      <div class="stvorec" v-if="pokus"></div>
-    </transition>
-    
   </div>
 </template>
 
@@ -63,6 +65,9 @@
   const playedGames = ref<number>(0);
   const wins = ref<number>(0);
   const winPer = ref<number>(0);
+  const result = ref<string>("");
+  const showInput = ref<boolean>(true);
+  const winPerClass = ref<string>("");
 
   const userInput = ref<gameInputType>({
     value: "",
@@ -74,14 +79,41 @@
     src: "",
     alt: ""
   });
-  const result = ref<string>("");
-
-  const showInput = ref<boolean>(true);
 
   const winPercentage = computed((): number => {
       if(wins.value === 0 && playedGames.value === 0) return winPer.value = 0;
       winPer.value = parseFloat(((wins.value/playedGames.value) * 100).toFixed(1));
       return winPer.value;
+  })
+
+  const winPercentageClass = computed((): string => {
+    switch(true){
+        case winPer.value < 20: {
+          winPerClass.value = "winPer1";
+          break;
+        }
+        case winPer.value >= 20 && winPer.value < 40: {
+          winPerClass.value = "winPer2";
+          break;
+        }
+        case winPer.value >= 40 && winPer.value < 60: {
+          winPerClass.value = "winPer3";
+          break;
+        }
+        case winPer.value >= 60 && winPer.value < 80: {
+          winPerClass.value = "winPer4";
+          break;
+        }
+        case winPer.value >= 80: {
+          winPerClass.value = "winPer5";
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+
+      return winPerClass.value;
   })
 
   const gameResult = (win: boolean) => {
@@ -115,59 +147,6 @@
     else gameResult(false);
   }
 
-  const pokus = ref<boolean>(true);
-
-  const pokusFunction = ():void => {
-    pokus.value = !pokus.value
-  }
-
 </script>
 
-<style scoped>
-
-  .message {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 50px;
-  }
-
-  .message h2 {
-    padding-top: 50px;
-  }
-
-  .input-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .stvorec {
-    background-color: rgb(37, 168, 255);
-    width: 150px;
-    height: 150px;
-  }
-
-  .animation-pokus-enter-from {
-    opacity: 0;
-  }
-
-  .animation-pokus-enter-to {
-    opacity: 1;
-  }
-
-  .animation-pokus-enter-active,
-  .animation-pokus-leave-active {
-    transition: opacity 2s ease;
-  }
-
-  .animation-pokus-leave-from {
-    opacity: 1;
-  }
-
-  .animation-pokus-leave-to {
-    opacity: 0;
-  }
-
-</style>
+<style src="../styles/component_style.css" scoped></style>
