@@ -1,0 +1,95 @@
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    height: 300px;
+  }
+
+  .round {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    height: 300px;
+  }
+
+  .round h2 {
+    padding-top: 50px;
+  }
+
+  .input-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .message h3 {
+    border-radius: 0.5em;
+    padding: 10px;
+    margin-bottom: 50px;
+  }
+
+  .stats {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    gap: 20px;
+  }
+
+  .stat {
+    border: 2px solid  rgba(255, 255, 255, 0.87);
+    padding: 15px 20px 0 20px;
+    border-radius: 0.5em;
+    font-size: 1.3em;
+    font-weight: 100;
+  }
+
+  .stat p {
+    color: #279eff;
+  }
+
+  .winPer1 {
+    color: rgb(255, 50, 50) !important;
+  }
+
+  .winPer2 {
+    color: rgb(255, 183, 50) !important;
+  }
+
+  .winPer3 {
+    color: rgb(255, 255, 50) !important;
+  }
+
+  .winPer4 {
+    color: rgb(187, 255, 50) !important;
+  }
+
+  .winPer5 {
+    color: rgb(50, 255, 50) !important;
+  }
+
+  .winMessageBackground {
+    color: rgb(50, 255, 50);
+    border: 2px solid rgb(50, 255, 50);
+  }
+
+  .loseMessageBackground {
+    color: rgb(255, 50, 50);
+    border: 2px solid rgb(255, 50, 50);
+  }
+
+  .tieMessageBackground {
+    color: #279eff;
+    border: 2px solid #279eff;
+  }
+
+  .header-enter-from { transform: translateY(-100px); }
+  .header-enter-to { transform: translateY(0); }
+  .header-enter-active { transition: all 0.5s ease }
+
+  .game-enter-from, .game-leave-to { opacity: 0; }
+  .game-enter-to, .game-leave-from { opacity: 1; }
+  .game-enter-active, .game-leave-active { transition: all 0.5s ease; }
