@@ -31,7 +31,7 @@
         </div>
         
         <div class="message" v-if="!showInput">
-          <h3 class="tieMessageBackground">{{ result }}</h3>
+          <h3 :class="messageClass">{{ message }}</h3>
           <button @click="showInput = true">Play again</button>
         </div>
 
@@ -66,8 +66,10 @@
   const wins = ref<number>(0);
   const winPer = ref<number>(0);
   const result = ref<string>("");
+  const message = ref<string>("");
   const showInput = ref<boolean>(true);
   const winPerClass = ref<string>("");
+  const msgClass = ref<string>("");
 
   const userInput = ref<gameInputType>({
     value: "",
@@ -84,6 +86,28 @@
       if(wins.value === 0 && playedGames.value === 0) return winPer.value = 0;
       winPer.value = parseFloat(((wins.value/playedGames.value) * 100).toFixed(1));
       return winPer.value;
+  })
+
+  const messageClass = computed((): string => {
+    switch(true){
+        case result.value === "win": {
+          msgClass.value = "winMessageBackground";
+          break;
+        }
+        case result.value === "lose": {
+          msgClass.value = "loseMessageBackground";
+          break;
+        }
+        case result.value === "tie": {
+          msgClass.value = "tieMessageBackground";
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+
+      return msgClass.value;
   })
 
   const winPercentageClass = computed((): string => {
@@ -142,7 +166,8 @@
 
     const gameDecision: gameDecisionType = decision(input, opponentMove);
 
-    result.value = gameDecision.message;
+    message.value = gameDecision.message;
+    result.value = gameDecision.win ? "win" : gameDecision.tie ? "tie" : "lose";
     if(gameDecision.win) gameResult(true);
     else gameResult(false);
   }
