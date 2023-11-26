@@ -41,6 +41,7 @@
 
   .stat {
     border: 2px solid  rgba(255, 255, 255, 0.87);
+    box-shadow: 0 0 3px 3px rgb(255, 255, 255, 0.87) inset;
     padding: 15px 20px 0 20px;
     border-radius: 0.5em;
     font-size: 1.3em;
@@ -74,16 +75,19 @@
   .winMessageBackground {
     color: rgb(50, 255, 50);
     border: 2px solid rgb(50, 255, 50);
+    box-shadow: 0 0 3px 3px rgb(50, 255, 50) inset;
   }
 
   .loseMessageBackground {
     color: rgb(255, 50, 50);
     border: 2px solid rgb(255, 50, 50);
+    box-shadow: 0 0 3px 3px rgb(255, 50, 50) inset;
   }
 
   .tieMessageBackground {
     color: #279eff;
     border: 2px solid #279eff;
+    box-shadow: 0 0 3px 3px #279eff inset;
   }
 
   .header-enter-from { transform: translateY(-100px); }
